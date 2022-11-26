@@ -4,25 +4,26 @@
 Welcome <?php echo $_POST["firstname"]; ?><br>
 Your email address is: <?php echo $_POST["email"]; 
 
-$servername = "ec2-52-70-45-163.compute-1.amazonaws.com";
-$port="5432";
-$username = "dodoaucrkueiyb";
-$password = "d0cabcd343805d6858deac56b55b7aa7fe3aa0d1111d9ba64c6b1e8169e26db6";
-$dbname = "dephqj61jf8kuj";
+$servername = "ec2-3-224-184-9.compute-1.amazonaws.com";
+$username = "enremxrgvjvkrj";
+$password = "44a03b46df9de709e99ceacd1f78b47598fd3b1ec333e6be31a622a39f63bbf3";
+$port = "5432";
+$dbname = "d4l8kec1e211o";
 $firstname=$_POST["firstname"];
 $lastname=$_POST["lastname"];
 $email=$_POST["email"];
 try {
-  $conn = new PDO("pgsql:host=$servername;port=$port;dbname=$dbname;user=$username;password=$password");
+  $conn = new PDO("pgsql:host=$servername;port=$port;dbname=$dbname", $username, $password);
   // set the PDO error mode to exception
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
   // prepare sql and bind parameters
-  $stmt = $conn->prepare("INSERT INTO myDB.MyGuests (firstname, lastname, email)
+  $stmt = $conn->prepare("INSERT INTO MyGuests (firstname, lastname, email)
   VALUES (:firstname, :lastname, :email)");
   $stmt->bindParam(':firstname', $firstname);
   $stmt->bindParam(':lastname', $lastname);
   $stmt->bindParam(':email', $email);
+ 
   $stmt->execute();
 
   echo "New records created successfully";
@@ -50,10 +51,15 @@ class TableRows extends RecursiveIteratorIterator {
   }
 }
 
+$servername = "localhost";
+$username = "username";
+$password = "password";
+$dbname = "myDBPDO";
+
 try {
-  $conn = new PDO("pgsql:host=$servername;port=$port;dbname=$dbname;user=$username;password=$password");
+  $conn = new PDO("pgsql:host=$servername;port=$port;dbname=$dbname", $username, $password);
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  $stmt = $conn->prepare("SELECT id, firstname, lastname FROM myDB.MyGuests");
+  $stmt = $conn->prepare("SELECT id, firstname, lastname FROM MyGuests");
   $stmt->execute();
 
   // set the resulting array to associative
@@ -64,8 +70,10 @@ try {
 } catch(PDOException $e) {
   echo "Error: " . $e->getMessage();
 }
-
 $conn = null;
+echo "</table>";
 ?>
+
+  
 </body>
 </html>
